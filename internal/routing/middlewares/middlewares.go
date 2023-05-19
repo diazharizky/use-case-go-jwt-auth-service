@@ -1,15 +1,15 @@
-package authentications
+package middlewares
 
 import (
 	"github.com/diazharizky/use-case-go-jwt-auth-service/internal/app"
 )
 
-type controller struct {
+type middlewares struct {
 	appCtx *app.Context
 }
 
-func NewController(appCtx *app.Context) controller {
-	return controller{
+func New(appCtx *app.Context) middlewares {
+	return middlewares{
 		appCtx: appCtx,
 	}
 }

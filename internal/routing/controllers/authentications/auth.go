@@ -1,15 +1,14 @@
 package authentications
 
 import (
+	"log"
 	"net/http"
-	"time"
 
 	"github.com/diazharizky/use-case-go-jwt-auth-service/internal/models"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
 )
 
-func (controller) Auth(ctx *gin.Context) {
+func (ctl controller) Auth(ctx *gin.Context) {
 	username, password, ok := ctx.Request.BasicAuth()
 	if !ok {
 		ctx.AbortWithStatusJSON(
@@ -31,28 +30,20 @@ func (controller) Auth(ctx *gin.Context) {
 		return
 	}
 
-	expirationTime := time.Now().Add(5 * time.Minute)
-	claims := models.JWTClaims{
-		Username: username,
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(expirationTime),
+	signedToken, err := ctl.appCtx.GenerateJWTTokenService.Call(
+		models.UserData{
+			Username: username,
 		},
-	}
-
-	token := jwt.NewWithClaims(
-		jwt.SigningMethodHS256,
-		claims,
 	)
-
-	signedToken, err := token.SignedString([]byte("mysecretkey"))
 	if err != nil {
+		log.Printf("Error unable to generate token: %v", err)
+
 		ctx.AbortWithStatusJSON(
 			http.StatusInternalServerError,
 			map[string]interface{}{
-				"message": "Error unable to authenticate client",
+				"error": "Internal server error",
 			},
 		)
-		return
 	}
 
 	ctx.JSON(http.StatusOK, map[string]interface{}{

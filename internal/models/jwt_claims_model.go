@@ -6,6 +6,5 @@ import (
 
 type JWTClaims struct {
 	jwt.RegisteredClaims
-
-	Username string `json:"username"`
+	Payload UserData
 }

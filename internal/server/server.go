@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/diazharizky/use-case-go-jwt-auth-service/config"
+	"github.com/diazharizky/use-case-go-jwt-auth-service/internal/app"
 	"github.com/diazharizky/use-case-go-jwt-auth-service/internal/routing"
 )
 
@@ -18,12 +19,12 @@ func init() {
 	config.Global.SetDefault("server.port", "8080")
 }
 
-func Start() {
+func Start(appCtx *app.Context) {
 	host := config.Global.GetString("server.host")
 	port := config.Global.GetString("server.port")
 
 	addr := fmt.Sprintf("%s:%s", host, port)
-	router := routing.NewRouter()
+	router := routing.NewRouter(appCtx)
 
 	server := &http.Server{
 		Addr:    addr,
