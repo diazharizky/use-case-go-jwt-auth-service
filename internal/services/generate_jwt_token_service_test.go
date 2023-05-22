@@ -1,22 +1,17 @@
-package services
+package services_test
 
 import (
 	"fmt"
-	"testing"
 
 	"github.com/diazharizky/use-case-go-jwt-auth-service/internal/models"
+	"github.com/diazharizky/use-case-go-jwt-auth-service/internal/services"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-func TestGenerateJWTTokenServiceTestSuite(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "GenerateJWTTokenService")
-}
-
 var _ = Describe("Test generate JWT token service", func() {
-	service := NewGenerateJWTTokenService()
+	service := services.NewGenerateJWTTokenService()
 
 	type testCase struct {
 		name       string
