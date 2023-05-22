@@ -24,7 +24,7 @@ var _ = Describe("Test generate JWT token service", func() {
 		testCases []testCase
 	}{
 		{
-			name: "A context",
+			name: "When parameters are fine",
 			testCases: []testCase{
 				{
 					name: "Must be succeed",
