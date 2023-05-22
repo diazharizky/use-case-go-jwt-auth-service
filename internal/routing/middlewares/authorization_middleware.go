@@ -3,6 +3,7 @@ package middlewares
 import (
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/diazharizky/use-case-go-jwt-auth-service/internal/consts"
 	"github.com/gin-gonic/gin"
@@ -13,6 +14,14 @@ func (mdw middlewares) AuthorizationMiddleware(ctx *gin.Context) {
 	if authorizationHeader == "" {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, map[string]interface{}{
 			"message": "Invalid token",
+		})
+		return
+	}
+
+	isValidAuthType := strings.Contains(authorizationHeader, consts.BearerSchema)
+	if !isValidAuthType {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "Invalid authorization type",
 		})
 		return
 	}
