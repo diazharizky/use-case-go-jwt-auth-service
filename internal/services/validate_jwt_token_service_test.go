@@ -16,18 +16,35 @@ var _ = Describe("Test validate JWT token service", func() {
 		assertions  func(isValid bool, claims *models.JWTClaims, err error)
 	}
 
+	genTokenService := services.NewGenerateJWTTokenService()
+	fineTokenString, _ := genTokenService.Call(models.UserData{
+		Username: "foo",
+	})
+
 	contexts := []struct {
 		name      string
 		testCases []testCase
 	}{
 		{
-			name: "When failed to validate",
+			name: "When input is incorrect",
 			testCases: []testCase{
 				{
-					name:        "Invalid token string",
+					name:        "Must returns invalid response",
 					tokenString: "",
 					assertions: func(isValid bool, _ *models.JWTClaims, _ error) {
 						Expect(isValid).Should(Equal(false))
+					},
+				},
+			},
+		},
+		{
+			name: "When input is correct",
+			testCases: []testCase{
+				{
+					name:        "Must returns valid response",
+					tokenString: *fineTokenString,
+					assertions: func(isValid bool, _ *models.JWTClaims, _ error) {
+						Expect(isValid).Should(Equal(true))
 					},
 				},
 			},
