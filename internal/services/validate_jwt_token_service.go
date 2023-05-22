@@ -14,7 +14,7 @@ func NewValidateJWTTokenService() validateJWTTokenService {
 	return validateJWTTokenService{}
 }
 
-func (svc validateJWTTokenService) Call(tokenString string) (bool, *models.JWTClaims, error) {
+func (validateJWTTokenService) Call(tokenString string) (bool, *models.JWTClaims, error) {
 	claims := &models.JWTClaims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

@@ -27,8 +27,9 @@ func Start(appCtx *app.Context) {
 	router := routing.NewRouter(appCtx)
 
 	server := &http.Server{
-		Addr:    addr,
-		Handler: router,
+		Addr:              addr,
+		Handler:           router,
+		ReadHeaderTimeout: 5 * time.Second,
 	}
 
 	go func() {
@@ -53,7 +54,8 @@ func Start(appCtx *app.Context) {
 	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
-		log.Fatalf("Server forced to shutdown: %v\n", err)
+		log.Printf("Server forced to shutdown: %v\n", err)
+		return
 	}
 
 	log.Println("Server exiting!")

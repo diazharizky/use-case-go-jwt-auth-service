@@ -9,7 +9,7 @@ import (
 )
 
 func (mdw middlewares) AuthorizationMiddleware(ctx *gin.Context) {
-	authorizationHeader := ctx.GetHeader(consts.AUTHORIZATION_HEADER_KEY)
+	authorizationHeader := ctx.GetHeader(consts.AuthorizationHeaderKey)
 	if authorizationHeader == "" {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, map[string]interface{}{
 			"message": "Invalid token",
@@ -17,7 +17,7 @@ func (mdw middlewares) AuthorizationMiddleware(ctx *gin.Context) {
 		return
 	}
 
-	tokenString := authorizationHeader[len(consts.BEARER_SCHEMA)+1:] // Add +1 to handle white space
+	tokenString := authorizationHeader[len(consts.BearerSchema)+1:] // Add +1 to handle white space
 	valid, claims, err := mdw.appCtx.ValidateJWTTokenService.Call(tokenString)
 	if err != nil {
 		log.Printf("Error unable to validate token: %v", err)
