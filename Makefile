@@ -11,3 +11,6 @@ lint:
 
 test:
 	CONFIG_FILE_PATH=${PWD}/config CONFIG_ENV=test go test -v ./...
+
+tidy:
+	go mod tidy
