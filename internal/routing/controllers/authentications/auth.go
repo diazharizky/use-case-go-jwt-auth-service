@@ -14,7 +14,7 @@ func (ctl controller) Auth(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(
 			http.StatusBadRequest,
 			map[string]interface{}{
-				"data": "Username/password combination is incorrect",
+				"data": "Unable to parse username/password from the request headers",
 			},
 		)
 		return
